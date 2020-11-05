@@ -1,8 +1,19 @@
-# export SCRAM_ARCH=slc6_amd64_gcc700
-# The above ARCH is the OG, but running with that on cmsRun on cc7 crashes. Running on slc6
-# is not recommended and also crashed eoscp commands. Therefore switched to the ARCH below, run on cc7.
+# Setup instructions
+
+We'll duplicate the setup used to produce central Higgsino N2N1 samples, but adding a displacement ctau. The production chain is found here:
+https://cms-pdmv.cern.ch/mcm/chained_requests?contains=SUS-RunIIAutumn18NanoAODv7-00068&page=0&shown=15
+
+### Commands
+
+```
+export SCRAM_ARCH=slc6_amd64_gcc700
+```
+The above ARCH is the OG, but running with that on cmsRun on cc7 crashes. Running on slc6 is not recommended and also crashed eoscp commands. Therefore switched to the ARCH below, run on cc7.
+
+```
 export SCRAM_ARCH=slc7_amd64_gcc700
 cmsrel CMSSW_10_2_5
+cp step*_cfg.py CMSSW_10_2_5/src/
 cd CMSSW_10_2_5/src
 cmsenv
 scram b -j 8
@@ -15,3 +26,4 @@ cd CMSSW_10_2_7/src
 cmsenv
 scram b -j 8
 cd ../..
+```
