@@ -27,7 +27,7 @@ process.load('Configuration.StandardSequences.EndOfProcess_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(10)
+    input = cms.untracked.int32(1000)
 )
 
 # Input source
@@ -125,7 +125,7 @@ process = customiseEarlyDelete(process)
 # End adding early deletion
 process.source.fileNames = [ 'file:step0.root' ]
 ## If needed, select events to process
-process.maxEvents.input = cms.untracked.int32(10)
+process.maxEvents.input = cms.untracked.int32(1000)
 ## Scramble
 import random
 rnd = random.SystemRandom()
@@ -133,7 +133,7 @@ for X in process.RandomNumberGeneratorService.parameterNames_():
    if X != 'saveFileName': getattr(process.RandomNumberGeneratorService,X).initialSeed = rnd.randint(1,99999999)
 process.source.fileNames = [ 'file:step0.root' ]
 ## If needed, select events to process
-process.maxEvents.input = cms.untracked.int32(10)
+process.maxEvents.input = cms.untracked.int32(1000)
 ## Scramble
 import random
 rnd = random.SystemRandom()

@@ -2,7 +2,7 @@
 # using: 
 # Revision: 1.19 
 # Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
-# with command line options: GenProduction/Configuration/customized_fragment.py --python_filename /afs/cern.ch/work/p/pmeiring/private/CMS/DisplacedSOSproduction/events.step0_cfg.py --eventcontent RAWSIM --customise Configuration/DataProcessing/Utils.addMonitoring --datatier GEN-SIM --fileout file:step0.root --conditions 102X_upgrade2018_realistic_v11 --beamspot Realistic25ns13TeVEarly2018Collision --customise_commands process.source.numberEventsInLuminosityBlock = cms.untracked.uint32(10) --step GEN,SIM --geometry DB:Extended --era Run2_2018 --mc --no_exec -n 10
+# with command line options: GenProduction/Configuration/customized_fragment.py --python_filename /afs/cern.ch/work/p/pmeiring/private/CMS/DisplacedSOSproduction/events.step0_cfg.py --eventcontent RAWSIM --customise Configuration/DataProcessing/Utils.addMonitoring --datatier GEN-SIM --fileout file:step0.root --conditions 102X_upgrade2018_realistic_v11 --beamspot Realistic25ns13TeVEarly2018Collision --customise_commands process.source.numberEventsInLuminosityBlock = cms.untracked.uint32(1000) --step GEN,SIM --geometry DB:Extended --era Run2_2018 --mc --no_exec -n 1000
 import FWCore.ParameterSet.Config as cms
 
 from Configuration.StandardSequences.Eras import eras
@@ -26,7 +26,7 @@ process.load('Configuration.StandardSequences.EndOfProcess_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(10)
+    input = cms.untracked.int32(1000)
 )
 
 # Input source
@@ -38,7 +38,7 @@ process.options = cms.untracked.PSet(
 
 # Production Info
 process.configurationMetadata = cms.untracked.PSet(
-    annotation = cms.untracked.string('GenProduction/Configuration/customized_fragment.py nevts:10'),
+    annotation = cms.untracked.string('GenProduction/Configuration/customized_fragment.py nevts:1000'),
     name = cms.untracked.string('Applications'),
     version = cms.untracked.string('$Revision: 1.19 $')
 )
@@ -124,12 +124,12 @@ process.generator = cms.EDFilter("Pythia8GeneratorFilter",
                 'ParticleDecays:limitTau0 = on', 
                 'ParticleDecays:tau0Max = 10', 
                 'ParticleDecays:allowPhotonRadiation = on', 
-                '1000023:tau0 = 1.000000e+02', 
+                '1000023:tau0 = 1.000000e+01', 
                 'ParticleDecays:tau0Max = 1000.1', 
                 'LesHouches:setLifetime = 2'
             )
         ),
-        SLHATableForPythia8 = cms.string('\n#\n#\nBLOCK MASS  # Mass Spectrum\n# PDG code           mass       particle\n        35     1.00000000E+05\n        36     1.00000000E+05\n        37     1.00000000E+05\n        6      1.72500000E+02\n   1000001     1.00000000E+05    # ~d_L\n   2000001     1.00000000E+05   # ~d_R\n   1000002     1.00000000E+05    # ~u_L\n   2000002     1.00000000E+05   # ~u_R\n   1000003     1.00000000E+05    # ~s_L\n   2000003     1.00000000E+05   # ~s_R\n   1000004     1.00000000E+05    # ~c_L\n   2000004     1.00000000E+05   # ~c_R\n   1000005     1.00000000E+05   # ~b_1\n   2000005     1.00000000E+05   # ~b_2\n   1000006     1.00000000E+05   # ~t_1\n   2000006     1.00000000E+05   # ~t_2\n   1000011     1.00000000E+05   # ~e_L\n   2000011     1.00000000E+05   # ~e_R\n   1000012     1.00000000E+05   # ~nu_eL\n   1000013     1.00000000E+05   # ~mu_L\n   2000013     1.00000000E+05   # ~mu_R\n   1000014     1.00000000E+05   # ~nu_muL\n   1000015     1.00000000E+05   # ~tau_1\n   2000015     1.00000000E+05   # ~tau_2\n   1000016     1.00000000E+05   # ~nu_tauL\n   1000021     1.00000000E+05   # ~g\n   1000022     8.000000e+01            # ~chi_10\n   1000023     1.000000e+02            # ~chi_20\n   1000025     1.00000000E+05   # ~chi_30\n   1000035     1.00000000E+05   # ~chi_40\n   1000024     9.000000e+01            # ~chi_1+\n   1000037     1.00000000E+05   # ~chi_2+\n#\n#\n#\n#         PDG            Width\nDECAY         6     1.134E+00        # top decays\nDECAY   2000006     0.00000000E+00   # stop2 decays\nDECAY   1000005     0.00000000E+00   # sbottom1 decays\nDECAY   2000005     0.00000000E+00   # sbottom2 decays\n#\n#         PDG            Width\nDECAY   1000011     0.00000000E+00   # selectron_L decays\nDECAY   2000011     0.00000000E+00   # selectron_R decays\nDECAY   1000013     0.00000000E+00   # smuon_L decays\nDECAY   2000013     0.00000000E+00   # smuon_R decays\nDECAY   1000015     0.00000000E+00   # stau_1 decays\nDECAY   2000015     0.00000000E+00   # stau_2 decays\n#\n#         PDG            Width\nDECAY   1000012     0.00000000E+00   # snu_elL decays\nDECAY   1000014     0.00000000E+00   # snu_muL decays\nDECAY   1000016     0.00000000E+00   # snu_tauL decays\nDECAY   1000006     0.00000000E+00   # stop1 decays\nDECAY   1000021     0.00000000E+00   # gluino decays\nDECAY   1000022     0.00000000E+00   # neutralino1 decays\nDECAY   1000023     1.973270e-15           # neutralino2 decays\n    0.00000000E+00   3    1000022   11   -11  #dummy decay\n    1.00000000E+00   2    1000022   23\n')
+        SLHATableForPythia8 = cms.string('\n#\n#\nBLOCK MASS  # Mass Spectrum\n# PDG code           mass       particle\n        35     1.00000000E+05\n        36     1.00000000E+05\n        37     1.00000000E+05\n        6      1.72500000E+02\n   1000001     1.00000000E+05    # ~d_L\n   2000001     1.00000000E+05   # ~d_R\n   1000002     1.00000000E+05    # ~u_L\n   2000002     1.00000000E+05   # ~u_R\n   1000003     1.00000000E+05    # ~s_L\n   2000003     1.00000000E+05   # ~s_R\n   1000004     1.00000000E+05    # ~c_L\n   2000004     1.00000000E+05   # ~c_R\n   1000005     1.00000000E+05   # ~b_1\n   2000005     1.00000000E+05   # ~b_2\n   1000006     1.00000000E+05   # ~t_1\n   2000006     1.00000000E+05   # ~t_2\n   1000011     1.00000000E+05   # ~e_L\n   2000011     1.00000000E+05   # ~e_R\n   1000012     1.00000000E+05   # ~nu_eL\n   1000013     1.00000000E+05   # ~mu_L\n   2000013     1.00000000E+05   # ~mu_R\n   1000014     1.00000000E+05   # ~nu_muL\n   1000015     1.00000000E+05   # ~tau_1\n   2000015     1.00000000E+05   # ~tau_2\n   1000016     1.00000000E+05   # ~nu_tauL\n   1000021     1.00000000E+05   # ~g\n   1000022     8.000000e+01            # ~chi_10\n   1000023     1.000000e+02            # ~chi_20\n   1000025     1.00000000E+05   # ~chi_30\n   1000035     1.00000000E+05   # ~chi_40\n   1000024     9.000000e+01            # ~chi_1+\n   1000037     1.00000000E+05   # ~chi_2+\n#\n#\n#\n#         PDG            Width\nDECAY         6     1.134E+00        # top decays\nDECAY   2000006     0.00000000E+00   # stop2 decays\nDECAY   1000005     0.00000000E+00   # sbottom1 decays\nDECAY   2000005     0.00000000E+00   # sbottom2 decays\n#\n#         PDG            Width\nDECAY   1000011     0.00000000E+00   # selectron_L decays\nDECAY   2000011     0.00000000E+00   # selectron_R decays\nDECAY   1000013     0.00000000E+00   # smuon_L decays\nDECAY   2000013     0.00000000E+00   # smuon_R decays\nDECAY   1000015     0.00000000E+00   # stau_1 decays\nDECAY   2000015     0.00000000E+00   # stau_2 decays\n#\n#         PDG            Width\nDECAY   1000012     0.00000000E+00   # snu_elL decays\nDECAY   1000014     0.00000000E+00   # snu_muL decays\nDECAY   1000016     0.00000000E+00   # snu_tauL decays\nDECAY   1000006     0.00000000E+00   # stop1 decays\nDECAY   1000021     0.00000000E+00   # gluino decays\nDECAY   1000022     0.00000000E+00   # neutralino1 decays\nDECAY   1000023     1.973270e-14           # neutralino2 decays\n    0.00000000E+00   3    1000022   11   -11  #dummy decay\n    1.00000000E+00   2    1000022   23\n')
     )),
     comEnergy = cms.double(13000.0),
     filterEfficiency = cms.untracked.double(1.0),
@@ -166,14 +166,14 @@ process = addMonitoring(process)
 
 # Customisation from command line
 
-process.source.numberEventsInLuminosityBlock = cms.untracked.uint32(10)
+process.source.numberEventsInLuminosityBlock = cms.untracked.uint32(1000)
 # Add early deletion of temporary data products to reduce peak memory need
 from Configuration.StandardSequences.earlyDeleteSettings_cff import customiseEarlyDelete
 process = customiseEarlyDelete(process)
 # End adding early deletion
 ## If needed, select events to process
 process.MessageLogger.cerr.FwkReport.reportEvery = 100
-process.maxEvents.input = cms.untracked.int32(10)
+process.maxEvents.input = cms.untracked.int32(1000)
 process.source.firstLuminosityBlock = cms.untracked.uint32(1)
 ## Scramble
 import random

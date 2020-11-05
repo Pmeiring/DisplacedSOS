@@ -107,7 +107,7 @@ ctaus = [1,10,100]
 
 # test
 dMs  = [20.]
-ctaus = [100]
+ctaus = [10]
 
 # -------------------------------
 #    Constructing grid
