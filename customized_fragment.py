@@ -1,4 +1,3 @@
-print "here"
 import FWCore.ParameterSet.Config as cms
 
 from Configuration.Generator.Pythia8CommonSettings_cfi import *
@@ -99,7 +98,6 @@ process = "Higgsino-N2N1"
 nevt = 1
 
 mN2s = [100.]
-#dMs  = [1., 3.]
 dMs  = [5., 10., 20.]
 mN1s = []
 mC1s = []
@@ -110,8 +108,7 @@ dMs  = [20.]
 ctaus = [10]
 
 # -------------------------------
-#    Constructing grid
-
+#    Constructing grid (when using the above parameter settings)
 mpoints = []
 for mN2 in mN2s:
   for dM in dMs:
@@ -122,11 +119,17 @@ for mN2 in mN2s:
           mC1s.append(mC1)
           mpoints.append([mN2,mN1,ctau,nevt])
 
+
+# -------------------------------
+#    Constructing grid (when using the parameter settings in submit.txt)
+with open('masspoint.txt','r') as f:
+  mpoints = [[float(x) for x in f.read().split(',')]] #(MN2,MLSP,CTAU0)
+  print mpoints
+
 for point in mpoints:
-    print "here"
-    
-    mn2, mn1, ctau0, nevts = point
-    # mn2, mn1 = point[0], point[1]
+    mn2, mn1, ctau0 = point[0], point[1], point[2]
+    # mn2, mn1, ctau0 = point
+    print mn2, mn1, ctau0
     mc1 = (mn2+mn1)/2.
 
     mn2Str = str(int(mn2))
@@ -134,7 +137,7 @@ for point in mpoints:
     mc1Str = "{0:.2f}".format(mc1).replace(".","p")
 
     qcut, tru_eff = matchParams(mn2)
-    wgt = nevts*(mcm_eff/tru_eff)
+    wgt = nevt*(mcm_eff/tru_eff)
     hBarCinGeVmm = 1.973269788e-13
     ctau = hBarCinGeVmm / ctau0
 

@@ -8,6 +8,7 @@ TMPDIR=$PWD
 SRC1027X=/afs/cern.ch/work/p/pmeiring/private/CMS/DisplacedSOSproduction/CMSSW_10_2_7/src
 SRC1025X=/afs/cern.ch/work/p/pmeiring/private/CMS/DisplacedSOSproduction/CMSSW_10_2_5/src
 
+STEP0=step0_cfg.py
 STEP1=step1_cfg.py
 STEP2=step2_cfg.py
 STEP3=step3_cfg.py
@@ -27,12 +28,13 @@ MN2=$1; shift
 MLSP=$1; shift
 CTAU0=$1; shift
 LUMIBLOCK=$1; shift
+LUMIBLOCK=$((LUMIBLOCK+1))
 
 ## Create output directories
 OUTDIR=$(dirname $OUTFILE)
 eos ls $OUTDIR || eos mkdir -p $OUTDIR
-OUTAOD=${OUTDIR/MINIAODSIM/AODSIM};
-eos ls $OUTAOD || eos mkdir -p $OUTAOD
+
+
 
 # ##############################################################   STEP 0 (0/1) ##############################################################
 cd $SRC1027X; 
@@ -41,10 +43,15 @@ export SCRAM_ARCH=slc7_amd64_gcc700
 eval $(scramv1 runtime -sh)
 cd $TMPDIR;
 
+echo GenProduction/Configuration/${FRAGMENT}
+echo $TMPDIR/$OUTBASE.step0_cfg.py
+echo $OUTBASE.step0_cfg.py
+
 echo "${MN2},${MLSP},${CTAU0}" > masspoint.txt 
+cat masspoint.txt
 # cp ${FRAGMENT} Configuration/GenProduction/python/${FRAGMENT}
 # # cmsDriver.py Configuration/GenProduction/python/${FRAGMENT} --fileout file:step0.root --mc --eventcontent RAWSIM --customise SLHCUpgradeSimulations/Configuration/postLS1Customs.customisePostLS1,Configuration/DataProcessing/Utils.addMonitoring --datatier GEN --conditions MCRUN2_71_V1::All --beamspot Realistic50ns13TeVCollision --step LHE,GEN --magField 38T_PostLS1 --python_filename $TMPDIR/$OUTBASE.step0_cfg.py --no_exec -n ${NEVENTS}
-cmsDriver.py GenProduction/Configuration/${FRAGMENT} --python_filename $TMPDIR/$OUTBASE.step0_cfg.py --eventcontent RAWSIM --customise Configuration/DataProcessing/Utils.addMonitoring --datatier GEN-SIM --fileout file:step0.root --conditions 102X_upgrade2018_realistic_v11 --beamspot Realistic25ns13TeVEarly2018Collision --customise_commands "process.source.numberEventsInLuminosityBlock = cms.untracked.uint32(1000)" --step GEN,SIM --geometry DB:Extended --era Run2_2018 --mc --no_exec -n ${NEVENTS}
+cmsDriver.py GenProduction/Configuration/${FRAGMENT} --python_filename $TMPDIR/$OUTBASE.step0_cfg.py --eventcontent RAWSIM --customise Configuration/DataProcessing/Utils.addMonitoring --datatier GEN-SIM --fileout file:step0.root --conditions 102X_upgrade2018_realistic_v11 --beamspot Realistic25ns13TeVEarly2018Collision --customise_commands "process.source.numberEventsInLuminosityBlock = cms.untracked.uint32(5000)" --step GEN,SIM --geometry DB:Extended --era Run2_2018 --mc --no_exec -n ${NEVENTS}
 
 cat >> $OUTBASE.step0_cfg.py <<_EOF_
 ## If needed, select events to process
@@ -58,20 +65,13 @@ for X in process.RandomNumberGeneratorService.parameterNames_():
    if X != 'saveFileName': getattr(process.RandomNumberGeneratorService,X).initialSeed = rnd.randint(1,99999999)
 _EOF_
 
+# cp /afs/cern.ch/work/p/pmeiring/private/CMS/DisplacedSOSproduction/step0_good.root $TMPDIR/step0.root
+
 cmsRun $OUTBASE.step0_cfg.py
-gzip $OUTBASE.step0_log && cp -v $OUTBASE.step0_log.gz $SRC1027X/jobs/
+# gzip $OUTBASE.step0_log && cp -v $OUTBASE.step0_log.gz $SRC1027X/jobs/
 test -f $TMPDIR/step0.root || exit 11
 edmFileUtil --ls file:$TMPDIR/step0.root | grep events        || exit 12
 edmFileUtil --ls file:$TMPDIR/step0.root | grep ', 0 events'  && exit 13
-
-# # copy, and retry on failure
-echo $TMPDIR/step0.root
-eos cp $TMPDIR/step0.root $OUTDIR/$OUTBASE.step0.root
-if eos ls $OUTDIR/$OUTBASE.step0.root; then
-    echo "Copied ok"
-else
-    eos cp $TMPDIR/step0.root $OUTDIR/$OUTBASE.step0.root
-fi;
 
 # ##############################################################   STEP 0 (1/1) ##############################################################
 
@@ -103,9 +103,10 @@ for X in process.RandomNumberGeneratorService.parameterNames_():
    if X != 'saveFileName': getattr(process.RandomNumberGeneratorService,X).initialSeed = rnd.randint(1,99999999)
 _EOF_
 echo running
-cmsRun -e -j $OUTBASE.step1_report.xml $OUTBASE.step1_cfg.py | tee $OUTBASE.step1_log
+# cmsRun -e -j $OUTBASE.step1_report.xml $OUTBASE.step1_cfg.py | tee $OUTBASE.step1_log
+cmsRun $OUTBASE.step1_cfg.py | tee $OUTBASE.step1_log
 # cmsRun $OUTBASE.step1_cfg.py 2>&1 | tee $OUTBASE.step1_log
-gzip $OUTBASE.step1_log && cp -v $OUTBASE.step1_log.gz $SRC1025X/jobs/
+# gzip $OUTBASE.step1_log && cp -v $OUTBASE.step1_log.gz $SRC1025X/jobs/
 echo zipping
 test -f $TMPDIR/step1.root || exit 11
 edmFileUtil --ls file:$TMPDIR/step1.root | grep events        || exit 12
@@ -131,7 +132,8 @@ for X in process.RandomNumberGeneratorService.parameterNames_():
 _EOF_
 
 # test -f $TMPDIR/step2.root || cmsRun -e -j $OUTBASE.step2_report.xml $OUTBASE.step2_cfg.py
-cmsRun -e -j $OUTBASE.step2_report.xml $OUTBASE.step2_cfg.py
+# cmsRun -e -j $OUTBASE.step2_report.xml $OUTBASE.step2_cfg.py
+cmsRun $OUTBASE.step2_cfg.py
 # ##############################################################   STEP 2 (1/1) ##############################################################
 
 
@@ -153,6 +155,7 @@ for X in process.RandomNumberGeneratorService.parameterNames_():
 _EOF_
 
 cmsRun -e -j $OUTBASE.step3_report.xml $OUTBASE.step3_cfg.py
+cmsRun $OUTBASE.step3_cfg.py
 # ##############################################################   STEP 3 (1/1) ##############################################################
 
 
