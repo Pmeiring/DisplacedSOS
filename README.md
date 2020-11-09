@@ -26,4 +26,7 @@ cd CMSSW_10_2_7/src
 cmsenv
 scram b -j 8
 cd ../..
+mkdir output
+mkdir log
+mkdir error
 ```
