@@ -1,7 +1,10 @@
 # Setup instructions
 
 We'll duplicate the setup used to produce central Higgsino N2N1 samples, but adding a displacement ctau. The production chain is found here:
-https://cms-pdmv.cern.ch/mcm/chained_requests?contains=SUS-RunIIAutumn18NanoAODv7-00068&page=0&shown=15
+https://cms-pdmv.cern.ch/mcm/requests?prepid=SUS-RunIIAutumn18NanoAODv7-00066
+The same setup can be used for displaced TChiWZ. The central TChiWZ (prompt) production chain is found here:
+https://cms-pdmv.cern.ch/mcm/requests?prepid=SUS-RunIIAutumn18NanoAODv7-00068
+
 
 ### Commands
 
