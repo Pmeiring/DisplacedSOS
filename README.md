@@ -11,7 +11,7 @@ https://cms-pdmv.cern.ch/mcm/requests?prepid=SUS-RunIIAutumn18NanoAODv7-00068
 ```
 export SCRAM_ARCH=slc6_amd64_gcc700
 ```
-The above ARCH is the OG, but running with that on cmsRun on cc7 crashes. Running on slc6 is not recommended and also crashed eoscp commands. Therefore switched to the ARCH below, run on cc7.
+The above ARCH is the original, but running with that on cmsRun on cc7 crashes. Running on slc6 is not recommended and also crashed eoscp commands. Therefore switched to the ARCH below, run on cc7.
 
 ```
 export SCRAM_ARCH=slc7_amd64_gcc700
