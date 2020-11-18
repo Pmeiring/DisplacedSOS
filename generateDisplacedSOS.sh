@@ -43,15 +43,11 @@ export SCRAM_ARCH=slc7_amd64_gcc700
 eval $(scramv1 runtime -sh)
 cd $TMPDIR;
 
-echo GenProduction/Configuration/${FRAGMENT}
-echo $TMPDIR/$OUTBASE.step0_cfg.py
-echo $OUTBASE.step0_cfg.py
-
 echo "${MN2},${MLSP},${CTAU0}" > masspoint.txt 
 cat masspoint.txt
 # cp ${FRAGMENT} Configuration/GenProduction/python/${FRAGMENT}
 # # cmsDriver.py Configuration/GenProduction/python/${FRAGMENT} --fileout file:step0.root --mc --eventcontent RAWSIM --customise SLHCUpgradeSimulations/Configuration/postLS1Customs.customisePostLS1,Configuration/DataProcessing/Utils.addMonitoring --datatier GEN --conditions MCRUN2_71_V1::All --beamspot Realistic50ns13TeVCollision --step LHE,GEN --magField 38T_PostLS1 --python_filename $TMPDIR/$OUTBASE.step0_cfg.py --no_exec -n ${NEVENTS}
-cmsDriver.py GenProduction/Configuration/${FRAGMENT} --python_filename $TMPDIR/$OUTBASE.step0_cfg.py --eventcontent RAWSIM --customise Configuration/DataProcessing/Utils.addMonitoring --datatier GEN-SIM --fileout file:step0.root --conditions 102X_upgrade2018_realistic_v11 --beamspot Realistic25ns13TeVEarly2018Collision --customise_commands "process.source.numberEventsInLuminosityBlock = cms.untracked.uint32(5000)" --step GEN,SIM --geometry DB:Extended --era Run2_2018 --mc --no_exec -n ${NEVENTS}
+cmsDriver.py GenProduction/Configuration/${FRAGMENT} --python_filename $TMPDIR/$OUTBASE.step0_cfg.py --eventcontent RAWSIM --customise Configuration/DataProcessing/Utils.addMonitoring --datatier GEN-SIM --fileout file:step0.root --conditions 102X_upgrade2018_realistic_v11 --beamspot Realistic25ns13TeVEarly2018Collision --customise_commands "process.source.numberEventsInLuminosityBlock = cms.untracked.uint32(${NEVENTS})" --step GEN,SIM --geometry DB:Extended --era Run2_2018 --mc --no_exec -n ${NEVENTS}
 
 cat >> $OUTBASE.step0_cfg.py <<_EOF_
 ## If needed, select events to process

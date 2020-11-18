@@ -1,18 +1,25 @@
 executable            = /afs/cern.ch/work/p/pmeiring/private/CMS/DisplacedSOSproduction/generateDisplacedSOS.sh
-arguments             = 5000 /eos/cms/store/user/pmeiring/DisplacedSOS/Test2_mN2_$(mn2)_mN1_$(mn1)_ctau_$(ctau0)/events_$(Step).root customized_fragment.py $(mn2) $(mn1) $(ctau0) $(Step)
+arguments             = 5000 /eos/cms/store/user/pmeiring/DisplacedSOS/TChiWZ_mN2_$(mn2)_mN1_$(mn1)_ctau_$(ctau0)/events_$(Step).root customized_fragment.py $(mn2) $(mn1) $(ctau0) $(Step)
 output                = output/hello.$(ClusterId).$(ProcId).out
 error                 = error/hello.$(ClusterId).$(ProcId).err
 log                   = log/hello.$(ClusterId).log
 transfer_output_files = ""
 +JobFlavour 	      = "nextweek"
 queue 1 mn2,mn1,ctau0 from (
-      100,70,10
-      100,70,100 
-      100,70,1000      
-      100,85,10
-      100,85,100 
-      100,85,1000      
-      100,95,10
-      100,95,100 
-      100,95,1000                        
+      100,85,100                    
+      100,85,10                    
+      100,85,1                    
+      100,85,0.1                   
+      100,90,100                    
+      100,90,10                    
+      100,90,1                    
+      100,90,0.1 
+      100,95,100                    
+      100,95,10                    
+      100,95,1                    
+      100,95,0.1 
+      100,97,100                    
+      100,97,10                    
+      100,97,1                    
+      100,97,0.1 
 )
