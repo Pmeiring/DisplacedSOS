@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 #  usage: $0 nEvents /store/path/output_file.root fragment.py[TChiWZ_ZToLL_Disp_fragment.py,SMS-N2N1-higgsino_Disp_fragment.py] mN2 mLSP cTau0 LUMIBLOCK
-#  ./generateDisplacedSOS.sh 10 /eos/cms/store/user/pmeiring/DisplacedSOS/Test_mN2_100_mN1_95_ctau_10/events.root customized_fragment.py 100 95 10 1
+#  ./generateDisplacedSOS.sh 10 /eos/cms/store/user/pmeiring/DisplacedSOS/Test_mN2_100_mN1_95_ctau_10/events.root GENfragment_TChiWZ_Disp.py 100 95 10 1
 TMPDIR=$PWD
 #### ENV
 # SRC71=/afs/cern.ch/work/p/pmeiring/private/CMS/DisplacedSOSproduction/CMSSW_7_1_30/src
