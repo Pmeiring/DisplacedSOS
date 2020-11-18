@@ -24,7 +24,7 @@ cd ../..
 cmsrel CMSSW_10_2_7
 mkdir -p CMSSW_10_2_7/GenProduction/Configuration/python
 mkdir -p CMSSW_10_2_7/src/GenProduction/Configuration/python
-cp customized_fragment.py CMSSW_10_2_7/src/GenProduction/Configuration/python/customized_fragment.py
+cp GENfragment* CMSSW_10_2_7/src/GenProduction/Configuration/python/
 cd CMSSW_10_2_7/src
 cmsenv
 scram b -j 8
